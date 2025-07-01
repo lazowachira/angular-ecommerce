@@ -1,18 +1,22 @@
-import { Component, signal } from '@angular/core';
+import { Component,inject, signal } from '@angular/core';
 import { PrimaryButton } from "../primary-button/primary-button";
+import { CartService } from '../../services/cart';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-header',
-  imports: [PrimaryButton],
+  imports: [PrimaryButton, RouterLink],
   template: `<div class="bg-slate-100 px-4 py-3 shadow-md flex  items-center justify-between">
-    <span class ="text-xl">{{ title() }}</span>
-    <app-primary-button label="Cart" (btnClicked)="ShowButton()"/>
+    <button class ="text-xl font-bold" routerLink="/" >{{ title() }}</button>
+    <app-primary-button [label]="'Cart  ' + cartService.cart().length + '' "
+    routerLink="/cart"
+    />
   </div>`,
   styleUrl: './header.scss'
 })
 export class Header {
- title = signal('Angular E-commerce');
-  ShowButton() {
-    console.log('Cart button clicked!');
-  }
+ title = signal('My Store');
+
+
+  cartService =inject(CartService);
 }
